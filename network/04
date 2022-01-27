@@ -1,1 +1,1 @@
-ifconfig en0 | grep "inet " | awk '{print $6}'
+netstat -nr | grep default
