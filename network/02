@@ -1,3 +1,2 @@
 NOT SURE
-ifconfig en0 | grep "inet " | awk '{print $6}'
-ifconfig en0 | grep "inet"
+arp -a | grep "$(ifconfig en0 | grep "inet " | awk '{print $2}' | cut -d . -f 1-2)" | awk '{print $2}' | cut -d '(' -f 2 | rev | cut -d ')' -f 2 | rev
