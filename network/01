@@ -1,1 +1,1 @@
-ifconfig | grep ": flags=" | awk -F ':' '{print $1}'
+ifconfig -l
