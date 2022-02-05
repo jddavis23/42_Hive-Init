@@ -1,0 +1,21 @@
+GRAPHIC SESSION
+When starting the system a 'display/login manager' will show.
+1. enter username and password
+
+SHH SESSION
+Connecting to VM via shh:
+1. Make sure settings of the network in visualbox is set to Bridged Adapter.
+2. start debian terminal and go to the root
+3. vi /etc/ssh/sshd_config
+	- The following parts should not be marked out
+	PermitRootLogin yes
+	PasswordAuthentication yes
+4. run the following command
+	service sshd restart
+5. run the following command and remember the inet under en0 (can also go under another name)
+	ipconfig
+	OR
+	ip a
+6. in iterm run the following command with the IP adress you found in previous step.
+	ssh username@ip.address
+7. enter password if asked
