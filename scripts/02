@@ -1,0 +1,12 @@
+#! /usr/bin/bash
+
+echo "Enter username to be deleted"
+read USRNME
+
+if whoami == USRNME
+        echo "current user cannot be deleted"
+else
+        echo "1"
+fi
+
+
