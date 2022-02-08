@@ -1,1 +1,36 @@
-my script
+#! /bin/bash
+
+inside_git_repo="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
+
+if [ !"$inside_git_repo" ]
+then
+        printf "not in git repo"
+        exit
+fi
+
+CONF_PATH=$(find . -name "config")
+COUNT=0
+if [[ "$CONF_PATH" != *".git/config"* ]]
+then
+        printf "not a git repository\n"
+fi
+
+while read line
+do
+        if [[ "$line" == *"url = git@vog"* ]]
+        then
+                VOG_URL="$line"
+                count=$((count+1))
+        fi
+        if [[ count > 1 && "$line" == *"jddavis23"* ]]
+        then
+                printf "personal git already accessable with \"all\" command"
+                exit
+        fi
+done <$CONF_PATH
+
+echo "[remote \"all\"]" >> $CONF_PATH
+printf "\t$VOG_URL" >> $CONF_PATH
+printf "enter url of personal git repository:\n"
+read MY_GIT_REPO
+printf "\turl = $MY_GIT_REPO" >> $CONF_PATH
