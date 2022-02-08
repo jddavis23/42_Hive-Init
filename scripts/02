@@ -1,12 +1,34 @@
-#! /usr/bin/bash
+#! /bin/bash
 
-echo "Enter username to be deleted"
-read USRNME
+WHO=$(whoami)
+ACTV=$(who | grep -v root | grep -v tty1 | awk 'NR==1 {print $1}')
 
-if whoami == USRNME
-        echo "current user cannot be deleted"
-else
-        echo "1"
-fi
-
-
+while [[ 1 == 1 ]]
+do
+        printf "Enter username to be deleted:\n"
+        read USRNME
+        while [[ "$WHO" ==  "$USRNME" || "$ACTV" != *"$USRNME"* ]]
+        do
+                while [[ "$WHO" == "$USRNME" ]]
+                do
+                        printf "cannot delete current user.\n\nenter username to be deleted:\n"
+                        read USRNME
+                done
+                ACTV=$(who | grep -v root | grep -v tty1 | awk 'NR==1 {print $1}')
+                if [[ "$ACTV" != *"$USRNME"* ]]
+                then
+                        printf "$USRNME is not an active user.\n\nenter username to be deleted:\n"
+                        read USRNME
+                fi
+        done
+        printf "are you aure you want to delete $USRNME?(yes/no)\n"
+        read CHOICE
+        if [[ "$CHOICE" == "yes" ]]
+        then
+                printf "deleting...\n"
+                pkill -9 -U "$USRNME"
+                userdel -f -r "$USRNME"
+                break
+        fi
+done
+echo "success"
