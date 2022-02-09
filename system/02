@@ -1,1 +1,1 @@
-sudo hostnamectl set-hostname "newname"
+sudo hostnamectl set-hostname ENTERNAME
