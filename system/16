@@ -1,7 +1,1 @@
-Cron is a system service that will run in the background and check for schedualed tasks & execute them.
-The schedualed tasks are stored in a file called crontab which cron will be scanning every minute.
-Each user has their one crontab which are stored in the following folder: /var/spool/cron/crontabs/
-The systems crontab file is found in the following folder: /etc/crontab
-The task are written in scripts and executables. They are then split up into hourly-, daily-, weekly and monthly task folders.
-The system tasks are mainly created by installed applications.
-https://www.makeuseof.com/tag/linux-task-scheduling-crontab-explained/
+Cron
