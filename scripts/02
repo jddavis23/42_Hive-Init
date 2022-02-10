@@ -14,7 +14,7 @@ do
                         printf "cannot delete current user.\n\nenter username to be deleted:\n"
                         read USRNME
                 done
-                ACTV=$(who | grep -v root | grep -v tty1 | awk 'NR==1 {print $1}')
+                ACTV=$(who | grep -v root | grep -v tty1 | awk '{print $1}')
                 if [[ "$ACTV" != *"$USRNME"* ]]
                 then
                         printf "$USRNME is not an active user.\n\nenter username to be deleted:\n"
