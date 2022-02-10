@@ -1,0 +1,52 @@
+#! /bin/bash
+
+inside_git_repo="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
+
+if [[ "$inside_git_repo" ]] 
+then
+	while [[ "$RETRY" != "exit" || "$RETRY" != "continue" ]]
+	do
+        	printf "git repository found\nplease make sure current directory is the root of the repo\n\nyour current path is $(pwd)\nenter \"exit\" if not and run script from root, else enter \"continue\":\n"
+		read RETRY
+		if [[ "$RETRY" == "exit" ]]
+		then
+			printf "exiting..."
+			exit
+		elif [[ "$RETRY" == "continue" ]]
+		then
+			break
+		fi
+	done
+else
+	printf "not a git repo\nexiting..."
+        exit
+fi
+
+CONF_PATH=$(find . -name "config")
+#printf "$CONF_PATH"
+COUNT=0
+if [[ "$CONF_PATH" != *".git/config"* ]]
+then
+        printf "config file not found\nexiting..."
+	exit
+fi
+
+while read line
+do
+        if [[ "$line" == *"url = git@vog"* ]]
+        then
+                VOG_URL="$line"
+                count=$((count+1))
+        fi
+        if [[ count -gt 1 && "$line" == *"jddavis23"* ]]
+        then
+                printf "personal git already accessable with \"all\" command"
+                exit
+        fi
+done <$CONF_PATH
+
+echo "[remote \"all\"]" >> $CONF_PATH
+printf "\t$VOG_URL" >> $CONF_PATH
+printf "enter url of personal git repository:\n"
+read MY_GIT_REPO
+printf "\n\turl = $MY_GIT_REPO" >> $CONF_PATH
